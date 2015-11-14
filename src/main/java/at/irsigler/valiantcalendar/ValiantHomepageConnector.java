@@ -8,9 +8,14 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+/**
+ * Connection class to the Valiant homepage that can create {@code}{@link ValiantRelease} objects based on HTML fragments on the page.
+ * @author Florian
+ *
+ */
 public class ValiantHomepageConnector {
 
-	private static final String VALIANT_EVENTS_URL = "http://www.valiantentertainment.com/events/";
+	private static final String VALIANT_EVENTS_URL = PropertiesLoader.getInstance().getProperty("valiant.events.url", "http://www.valiantentertainment.com/events/");
 
 	private static final String DATA_DATE = "data-date";
 
@@ -18,6 +23,11 @@ public class ValiantHomepageConnector {
 
 	private static final String DATA_DESCRIPTION = "data-description";
 	
+	/**
+	 * Parse the Valiant homepage and create a list of release events.
+	 * @return a list of release events
+	 * @throws IOException
+	 */
 	public List<ValiantRelease> readReleaseEvents() throws IOException {
 		
 		List<ValiantRelease> events = new ArrayList<ValiantRelease>();

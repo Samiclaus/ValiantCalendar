@@ -26,6 +26,11 @@ import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.EventDateTime;
 import com.google.api.services.calendar.model.Events;
 
+/**
+ * Connection class to a Google calendar that can create or update events based on a {@code}{@link ValiantRelease}.
+ * @author Florian
+ *
+ */
 public class ValiantCalendarConnector {
     /** Application name. */
     private static final String APPLICATION_NAME = "Valiant Release Dates Calendar Importer";
@@ -45,7 +50,7 @@ public class ValiantCalendarConnector {
     /** Global instance of the scopes required by this quickstart. */
     private static final List<String> SCOPES = Arrays.asList(CalendarScopes.CALENDAR_READONLY, CalendarScopes.CALENDAR);
     
-    private static final String VALIANT_ID = "5i0k9tl5i058172ea6gpm8jg8o@group.calendar.google.com";
+    private static final String VALIANT_ID = PropertiesLoader.getInstance().getProperty("google.calendar.id", "5i0k9tl5i058172ea6gpm8jg8o@group.calendar.google.com");
 
 	private static final String VALIANT_DATE_FORMAT = "yyyyMMdd";
 	
@@ -98,11 +103,21 @@ public class ValiantCalendarConnector {
         return calendarService;
     }
     
+    /**
+     * Get a list of existing future events on the Valiant calendar.
+     * @return a list of events - 200 events at maximum
+     * @throws IOException
+     */
 	public Events getExistingEvents() throws IOException {
 		Events existingEvents = getCalendarService().events().list(VALIANT_ID).setTimeMin(new DateTime(System.currentTimeMillis())).setMaxResults(200).execute();
 		return existingEvents;
 	}
 	
+	/**
+	 * Create a new event on the Valiant calendar.
+	 * @param release the new release that an event should be created for
+	 * @throws IOException
+	 */
 	public void createNewEvent(ValiantRelease release) throws IOException {
 		Event event = new Event();
 		event.setSummary(release.getTitle());
@@ -112,6 +127,12 @@ public class ValiantCalendarConnector {
 		getCalendarService().events().insert(VALIANT_ID, event).execute();
 	}
 	
+	/**.
+	 * Update an event on the Valiant calendar
+	 * @param release the new data that the existing event should be updated with
+	 * @param eventId the id of the existing event on the Valiant calendar
+	 * @throws IOException
+	 */
 	public void updateEvent(ValiantRelease release, String eventId) throws IOException {
 		Event event = getCalendarService().events().get(VALIANT_ID, eventId).execute();
 		event.setDescription(release.getDescription());

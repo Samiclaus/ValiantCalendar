@@ -4,6 +4,11 @@ import java.io.IOException;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
 
+/**
+ * Starts the Google calendar connector, visits the Valiant homepage and loads or updates new releases.
+ * @author Florian
+ *
+ */
 public class CalendarMain {
 
     public static void main(String[] args) throws IOException {
