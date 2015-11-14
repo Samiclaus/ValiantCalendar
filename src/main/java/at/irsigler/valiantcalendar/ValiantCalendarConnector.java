@@ -74,7 +74,7 @@ public class ValiantCalendarConnector {
      */
     private Credential authorize() throws IOException {
         // Load client secrets.
-        InputStream in = ValiantCalendarConnector.class.getResourceAsStream("/client_secret.json");
+        InputStream in = ValiantCalendarConnector.class.getResourceAsStream("client_secret.json");
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 
         // Build flow and trigger user authorization request.
