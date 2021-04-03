@@ -1,8 +1,8 @@
 package at.irsigler.valiantcalendar;
-import java.io.IOException;
-
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
+
+import java.io.IOException;
 
 /**
  * Starts the Google calendar connector, visits the Valiant homepage and loads or updates new releases.
